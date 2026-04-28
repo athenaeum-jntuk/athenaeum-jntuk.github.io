@@ -1,0 +1,2047 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>
+            Philosophy — Athenaeum · The Principles Behind Everything We Do
+        </title>
+        <meta
+            name="description"
+            content="The complete philosophical framework of Athenaeum: what we stand for, how we think about learning, the ten principles we live by, and how we prioritise every decision."
+        />
+        <link rel="icon" href="ATHENAEUM.png" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            /* ---------- Design tokens (identical to index.html) ---------- */
+            :root {
+                --bg: #0a0a0a;
+                --fg: #f5f5f5;
+                --muted: #8a8a8a;
+                --accent: #7a7a7a;
+                --card: #111111;
+                --border: #2a2a2a;
+                --hover: #1e1e1e;
+                --grid: rgba(255, 255, 255, 0.035);
+                --maxw: 1240px;
+                --serif: "Fraunces", "Times New Roman", serif;
+                --sans:
+                    "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+                --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+            }
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            html {
+                scroll-behavior: smooth;
+            }
+            body {
+                background: var(--bg);
+                color: var(--fg);
+                font-family: var(--sans);
+                font-weight: 400;
+                line-height: 1.6;
+                -webkit-font-smoothing: antialiased;
+                overflow-x: hidden;
+            }
+            a {
+                color: inherit;
+                text-decoration: none;
+            }
+            ::selection {
+                background: #f5f5f5;
+                color: #0a0a0a;
+            }
+
+            /* ---------- Layout ---------- */
+            .container {
+                max-width: var(--maxw);
+                margin: 0 auto;
+                padding: 0 32px;
+            }
+            section {
+                padding: 120px 0;
+                position: relative;
+                border-top: 1px solid var(--border);
+            }
+
+            /* ---------- Navbar (identical to index.html) ---------- */
+            .nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 100;
+                background: rgba(10, 10, 10, 0.72);
+                backdrop-filter: blur(18px) saturate(140%);
+                -webkit-backdrop-filter: blur(18px) saturate(140%);
+                border-bottom: 1px solid var(--border);
+            }
+            .nav-inner {
+                max-width: var(--maxw);
+                margin: 0 auto;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 14px 32px;
+            }
+            .brand {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+            .brand-logo {
+                width: 34px;
+                height: 34px;
+                flex: 0 0 34px;
+                border: 1px solid var(--border);
+                border-radius: 6px;
+                overflow: hidden;
+                background: #000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .brand-logo img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                display: block;
+            }
+            .brand-name {
+                font-family: var(--sans);
+                font-weight: 700;
+                letter-spacing: 0.22em;
+                font-size: 14px;
+                color: var(--fg);
+            }
+            .brand-name span {
+                color: var(--muted);
+                font-weight: 400;
+                margin-left: 6px;
+                letter-spacing: 0.18em;
+                font-size: 11px;
+            }
+            .nav-links {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+            .nav-links a {
+                padding: 8px 14px;
+                font-size: 13px;
+                color: var(--muted);
+                letter-spacing: 0.04em;
+                border-radius: 6px;
+                transition:
+                    color 0.25s,
+                    background 0.25s;
+            }
+            .nav-links a:hover,
+            .nav-links a.active {
+                color: var(--fg);
+                background: var(--hover);
+            }
+            .nav-links a.active {
+                color: var(--fg);
+            }
+            .nav-cta {
+                margin-left: 8px;
+                padding: 9px 16px !important;
+                border: 1px solid var(--border);
+                color: var(--fg) !important;
+                font-weight: 500;
+            }
+            .nav-cta:hover {
+                background: var(--fg) !important;
+                color: var(--bg) !important;
+                border-color: var(--fg);
+            }
+            .nav-toggle {
+                display: none;
+                background: none;
+                border: 1px solid var(--border);
+                color: var(--fg);
+                width: 38px;
+                height: 38px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 18px;
+            }
+
+            @media (max-width: 860px) {
+                .nav-links {
+                    position: absolute;
+                    top: 100%;
+                    left: 0;
+                    right: 0;
+                    background: rgba(10, 10, 10, 0.96);
+                    backdrop-filter: blur(14px);
+                    border-bottom: 1px solid var(--border);
+                    flex-direction: column;
+                    align-items: stretch;
+                    gap: 0;
+                    padding: 12px 16px 18px;
+                    transform: translateY(-12px);
+                    opacity: 0;
+                    pointer-events: none;
+                    transition: 0.25s ease;
+                }
+                .nav-links.open {
+                    transform: translateY(0);
+                    opacity: 1;
+                    pointer-events: auto;
+                }
+                .nav-links a {
+                    padding: 14px 12px;
+                    border-bottom: 1px solid var(--border);
+                }
+                .nav-links a:last-child {
+                    border-bottom: none;
+                }
+                .nav-cta {
+                    margin-left: 0 !important;
+                    text-align: center;
+                }
+                .nav-toggle {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+
+            /* ---------- Reveal animation (identical to index.html) ---------- */
+            .reveal {
+                opacity: 0;
+                transform: translateY(22px);
+                transition:
+                    opacity 0.6s ease,
+                    transform 0.6s ease;
+            }
+            .reveal.in {
+                opacity: 1;
+                transform: none;
+            }
+
+            /* ---------- Buttons ---------- */
+            .btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                padding: 14px 24px;
+                font-size: 14px;
+                font-weight: 500;
+                letter-spacing: 0.02em;
+                border-radius: 8px;
+                border: 1px solid transparent;
+                cursor: pointer;
+                transition: all 0.25s ease;
+            }
+            .btn-primary {
+                background: var(--fg);
+                color: var(--bg);
+            }
+            .btn-primary:hover {
+                background: #fff;
+                transform: translateY(-1px);
+            }
+            .btn-ghost {
+                background: transparent;
+                color: var(--fg);
+                border-color: var(--border);
+            }
+            .btn-ghost:hover {
+                background: var(--hover);
+                border-color: var(--accent);
+            }
+            .btn .arrow {
+                transition: transform 0.25s;
+            }
+            .btn:hover .arrow {
+                transform: translateX(3px);
+            }
+
+            /* ---------- Section heading ---------- */
+            .sec-head {
+                display: flex;
+                align-items: flex-end;
+                justify-content: space-between;
+                gap: 40px;
+                margin-bottom: 64px;
+                flex-wrap: wrap;
+            }
+            .sec-num {
+                font-family: var(--mono);
+                font-size: 12px;
+                color: var(--muted);
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                margin-bottom: 14px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .sec-num::before {
+                content: "";
+                width: 24px;
+                height: 1px;
+                background: var(--accent);
+            }
+            .sec-title {
+                font-family: var(--serif);
+                font-weight: 400;
+                font-size: clamp(34px, 4.4vw, 58px);
+                line-height: 1.05;
+                letter-spacing: -0.02em;
+                color: var(--fg);
+                max-width: 820px;
+            }
+            .sec-title em {
+                font-style: italic;
+                color: var(--muted);
+            }
+            .sec-lede {
+                color: var(--muted);
+                max-width: 380px;
+                font-size: 15px;
+                line-height: 1.7;
+            }
+
+            /* ---------- Chips ---------- */
+            .chip {
+                font-family: var(--mono);
+                font-size: 10.5px;
+                color: var(--muted);
+                padding: 5px 10px;
+                border: 1px solid var(--border);
+                border-radius: 999px;
+                letter-spacing: 0.06em;
+            }
+
+            /* ---------- PAGE HERO ---------- */
+            .page-hero {
+                padding: 160px 0 90px;
+                position: relative;
+                overflow: hidden;
+                border-top: none;
+            }
+            .hero-grid {
+                position: absolute;
+                inset: 0;
+                background-image:
+                    linear-gradient(var(--grid) 1px, transparent 1px),
+                    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+                background-size: 64px 64px;
+                mask-image: radial-gradient(
+                    ellipse at 50% 30%,
+                    #000 20%,
+                    transparent 75%
+                );
+                -webkit-mask-image: radial-gradient(
+                    ellipse at 50% 30%,
+                    #000 20%,
+                    transparent 75%
+                );
+                pointer-events: none;
+            }
+            .hero-lines {
+                position: absolute;
+                inset: 0;
+                pointer-events: none;
+                opacity: 0.5;
+            }
+            .hero-lines svg {
+                width: 100%;
+                height: 100%;
+                display: block;
+            }
+            .page-hero-inner {
+                position: relative;
+                z-index: 2;
+            }
+            .eyebrow {
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                font-family: var(--mono);
+                font-size: 12px;
+                color: var(--muted);
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                padding: 7px 14px;
+                border: 1px solid var(--border);
+                border-radius: 999px;
+                background: rgba(255, 255, 255, 0.02);
+                margin-bottom: 36px;
+            }
+            .eyebrow .dot {
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: var(--fg);
+                box-shadow: 0 0 12px rgba(245, 245, 245, 0.6);
+            }
+            .page-hero h1 {
+                font-family: var(--serif);
+                font-weight: 400;
+                font-size: clamp(42px, 7vw, 108px);
+                line-height: 0.98;
+                letter-spacing: -0.03em;
+                color: var(--fg);
+                margin-bottom: 28px;
+                max-width: 1100px;
+            }
+            .page-hero h1 em {
+                font-style: italic;
+                color: var(--muted);
+                font-weight: 300;
+            }
+            .page-hero-sub {
+                font-size: clamp(16px, 1.4vw, 18px);
+                color: var(--muted);
+                max-width: 620px;
+                margin-bottom: 48px;
+                line-height: 1.65;
+            }
+            .page-hero-sub b {
+                color: var(--fg);
+                font-weight: 500;
+            }
+
+            /* Breadcrumb */
+            .breadcrumb {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-family: var(--mono);
+                font-size: 11px;
+                color: var(--muted);
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+                margin-bottom: 48px;
+            }
+            .breadcrumb a {
+                transition: color 0.2s;
+            }
+            .breadcrumb a:hover {
+                color: var(--fg);
+            }
+            .breadcrumb .sep {
+                opacity: 0.4;
+            }
+
+            /* Page nav pills */
+            .page-nav {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-top: 48px;
+                padding-top: 40px;
+                border-top: 1px solid var(--border);
+            }
+            .page-nav a {
+                font-family: var(--mono);
+                font-size: 11px;
+                color: var(--muted);
+                padding: 7px 14px;
+                border: 1px solid var(--border);
+                border-radius: 999px;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                transition:
+                    color 0.25s,
+                    border-color 0.25s,
+                    background 0.25s;
+            }
+            .page-nav a:hover {
+                color: var(--fg);
+                border-color: var(--accent);
+                background: rgba(255, 255, 255, 0.02);
+            }
+
+            /* ---------- Belt ---------- */
+            .belt {
+                overflow: hidden;
+                border-top: 1px solid var(--border);
+                border-bottom: 1px solid var(--border);
+                padding: 13px 0;
+                background: var(--card);
+            }
+            .belt-track {
+                display: flex;
+                gap: 48px;
+                white-space: nowrap;
+                animation: belt 30s linear infinite;
+            }
+            .belt-track span {
+                font-family: var(--mono);
+                font-size: 11px;
+                color: var(--accent);
+                letter-spacing: 0.22em;
+                text-transform: uppercase;
+            }
+            .belt-track span::before {
+                content: "◆";
+                margin-right: 20px;
+                opacity: 0.4;
+            }
+            @keyframes belt {
+                from {
+                    transform: translateX(0);
+                }
+                to {
+                    transform: translateX(-50%);
+                }
+            }
+
+            /* ---------- MANIFESTO section ---------- */
+            .manifesto-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1px;
+                background: var(--border);
+                border: 1px solid var(--border);
+                margin-bottom: 64px;
+            }
+            @media (max-width: 720px) {
+                .manifesto-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+            .mani-cell {
+                background: var(--card);
+                padding: 44px 40px;
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+            }
+            .mani-cell.dark {
+                background: #0c0c0c;
+            }
+            .mani-cell .mani-label {
+                font-family: var(--mono);
+                font-size: 10px;
+                color: var(--accent);
+                letter-spacing: 0.24em;
+                text-transform: uppercase;
+                margin-bottom: 4px;
+            }
+            .mani-cell h3 {
+                font-family: var(--serif);
+                font-weight: 400;
+                font-size: 28px;
+                line-height: 1.1;
+                color: var(--fg);
+                letter-spacing: -0.01em;
+            }
+            .mani-cell p {
+                color: var(--muted);
+                font-size: 15px;
+                line-height: 1.7;
+            }
+
+            /* Full-width pull quote */
+            .pull-band {
+                border-top: 1px solid var(--border);
+                border-bottom: 1px solid var(--border);
+                padding: 48px 0;
+                margin-bottom: 0;
+            }
+            .pull-quote {
+                font-family: var(--serif);
+                font-style: italic;
+                font-size: clamp(22px, 3.2vw, 42px);
+                line-height: 1.2;
+                color: var(--fg);
+                letter-spacing: -0.015em;
+                max-width: 960px;
+            }
+            .pull-quote cite {
+                display: block;
+                font-family: var(--mono);
+                font-style: normal;
+                font-size: 11px;
+                color: var(--muted);
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                margin-top: 20px;
+            }
+
+            /* ---------- Learning framework ---------- */
+            .learning-cols {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 80px;
+                align-items: start;
+            }
+            @media (max-width: 900px) {
+                .learning-cols {
+                    grid-template-columns: 1fr;
+                    gap: 48px;
+                }
+            }
+            .learning-text p {
+                color: var(--muted);
+                font-size: 16px;
+                line-height: 1.8;
+                margin-bottom: 20px;
+            }
+            .learning-text p b {
+                color: var(--fg);
+                font-weight: 500;
+            }
+            .learning-text .block-pull {
+                border-left: 2px solid var(--fg);
+                padding: 8px 0 8px 24px;
+                font-family: var(--serif);
+                font-style: italic;
+                font-size: 22px;
+                line-height: 1.4;
+                color: var(--fg);
+                margin: 32px 0;
+            }
+
+            /* Levels list */
+            .levels {
+                display: flex;
+                flex-direction: column;
+                gap: 1px;
+                background: var(--border);
+                border: 1px solid var(--border);
+            }
+            .level-row {
+                background: var(--card);
+                padding: 28px 30px;
+                display: grid;
+                grid-template-columns: auto 1fr;
+                gap: 28px;
+                transition: background 0.3s;
+            }
+            .level-row:hover {
+                background: var(--hover);
+            }
+            .level-num {
+                font-family: var(--mono);
+                font-size: 13px;
+                color: var(--muted);
+                width: 24px;
+                text-align: right;
+                padding-top: 3px;
+                flex-shrink: 0;
+            }
+            .level-content h4 {
+                font-family: var(--sans);
+                font-weight: 600;
+                font-size: 14px;
+                color: var(--fg);
+                letter-spacing: 0.01em;
+                margin-bottom: 6px;
+            }
+            .level-content p {
+                color: var(--muted);
+                font-size: 14px;
+                line-height: 1.6;
+            }
+
+            /* ---------- Principles (10) ---------- */
+            .principles-ten {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1px;
+                background: var(--border);
+                border: 1px solid var(--border);
+            }
+            @media (max-width: 700px) {
+                .principles-ten {
+                    grid-template-columns: 1fr;
+                }
+            }
+            .prin-card {
+                background: var(--card);
+                padding: 40px 36px;
+                position: relative;
+                transition:
+                    background 0.3s,
+                    transform 0.3s;
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+                min-height: 220px;
+            }
+            .prin-card:hover {
+                background: var(--hover);
+                transform: translateY(-2px);
+            }
+            .prin-card .corner {
+                position: absolute;
+                top: 18px;
+                right: 20px;
+                width: 8px;
+                height: 8px;
+                border-top: 1px solid var(--accent);
+                border-right: 1px solid var(--accent);
+                opacity: 0.5;
+            }
+            .prin-num {
+                font-family: var(--mono);
+                font-size: 11px;
+                color: var(--accent);
+                letter-spacing: 0.2em;
+            }
+            .prin-card h3 {
+                font-family: var(--serif);
+                font-weight: 400;
+                font-size: 28px;
+                line-height: 1.1;
+                color: var(--fg);
+                letter-spacing: -0.01em;
+            }
+            .prin-card p {
+                color: var(--muted);
+                font-size: 14.5px;
+                line-height: 1.65;
+            }
+            .prin-card .prin-action {
+                font-family: var(--mono);
+                font-size: 11px;
+                color: var(--fg);
+                letter-spacing: 0.12em;
+                margin-top: auto;
+                padding-top: 16px;
+                border-top: 1px solid var(--border);
+            }
+
+            /* ---------- Contrast table ---------- */
+            .contrast-table {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1px;
+                background: var(--border);
+                border: 1px solid var(--border);
+            }
+            @media (max-width: 640px) {
+                .contrast-table {
+                    grid-template-columns: 1fr;
+                }
+            }
+            .ct-head {
+                background: var(--card);
+                padding: 20px 28px;
+                font-family: var(--mono);
+                font-size: 11px;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                border-bottom: 1px solid var(--border);
+            }
+            .ct-head.bad {
+                color: #6b6b6b;
+            }
+            .ct-head.good {
+                color: var(--fg);
+            }
+            .ct-items {
+                background: var(--card);
+                display: flex;
+                flex-direction: column;
+                gap: 1px;
+            }
+            .ct-item {
+                background: var(--bg);
+                padding: 18px 28px;
+                font-size: 14px;
+                line-height: 1.55;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+            .ct-item.bad {
+                color: var(--muted);
+            }
+            .ct-item.good {
+                color: var(--fg);
+            }
+            .ct-item::before {
+                content: "";
+                flex: 0 0 4px;
+                width: 4px;
+                height: 4px;
+                border-radius: 50%;
+            }
+            .ct-item.bad::before {
+                background: #444;
+            }
+            .ct-item.good::before {
+                background: var(--fg);
+                box-shadow: 0 0 8px rgba(245, 245, 245, 0.4);
+            }
+
+            /* ---------- AI Tools table ---------- */
+            .ai-table {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1px;
+                background: var(--border);
+                border: 1px solid var(--border);
+            }
+            @media (max-width: 640px) {
+                .ai-table {
+                    grid-template-columns: 1fr;
+                }
+            }
+            .ai-col-head {
+                background: var(--card);
+                padding: 18px 24px;
+                font-family: var(--mono);
+                font-size: 10px;
+                letter-spacing: 0.22em;
+                text-transform: uppercase;
+                border-bottom: 1px solid var(--border);
+            }
+            .ai-col-head.ok {
+                color: var(--fg);
+            }
+            .ai-col-head.no {
+                color: #5a5a5a;
+            }
+            .ai-items {
+                background: var(--card);
+                display: flex;
+                flex-direction: column;
+                gap: 1px;
+            }
+            .ai-item {
+                background: var(--bg);
+                padding: 16px 24px;
+                font-size: 13.5px;
+                line-height: 1.55;
+                font-family: var(--mono);
+                color: var(--muted);
+            }
+
+            /* ---------- Priority stack ---------- */
+            .priority-stack {
+                display: flex;
+                flex-direction: column;
+                gap: 1px;
+                background: var(--border);
+                border: 1px solid var(--border);
+            }
+            .prio-row {
+                background: var(--card);
+                padding: 28px 36px;
+                display: grid;
+                grid-template-columns: 48px 1fr;
+                gap: 32px;
+                align-items: center;
+                transition: background 0.3s;
+                cursor: default;
+            }
+            .prio-row:hover {
+                background: var(--hover);
+            }
+            .prio-n {
+                font-family: var(--serif);
+                font-size: 40px;
+                font-weight: 400;
+                color: var(--border);
+                line-height: 1;
+                transition: color 0.3s;
+            }
+            .prio-row:hover .prio-n {
+                color: var(--accent);
+            }
+            .prio-body h4 {
+                font-family: var(--sans);
+                font-weight: 600;
+                font-size: 15px;
+                color: var(--fg);
+                margin-bottom: 6px;
+                letter-spacing: 0.01em;
+            }
+            .prio-body p {
+                color: var(--muted);
+                font-size: 14px;
+                line-height: 1.6;
+            }
+
+            /* ---------- Calendar grid ---------- */
+            .cal-grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1px;
+                background: var(--border);
+                border: 1px solid var(--border);
+            }
+            @media (max-width: 900px) {
+                .cal-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+            @media (max-width: 500px) {
+                .cal-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+            .cal-cell {
+                background: var(--card);
+                padding: 32px 28px;
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+            .cal-period {
+                font-family: var(--mono);
+                font-size: 10px;
+                color: var(--accent);
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                margin-bottom: 4px;
+            }
+            .cal-cell h4 {
+                font-family: var(--serif);
+                font-weight: 400;
+                font-size: 22px;
+                color: var(--fg);
+                line-height: 1.15;
+                letter-spacing: -0.01em;
+            }
+            .cal-cell p {
+                color: var(--muted);
+                font-size: 13.5px;
+                line-height: 1.6;
+            }
+
+            /* ---------- Standard banner ---------- */
+            .standard-band {
+                background: var(--card);
+                border: 1px solid var(--border);
+                padding: 56px 60px;
+                display: flex;
+                flex-direction: column;
+                gap: 24px;
+                position: relative;
+                overflow: hidden;
+            }
+            .standard-band::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 1px;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    var(--accent),
+                    transparent
+                );
+            }
+            .standard-band .std-label {
+                font-family: var(--mono);
+                font-size: 11px;
+                color: var(--muted);
+                letter-spacing: 0.22em;
+                text-transform: uppercase;
+            }
+            .standard-band .std-title {
+                font-family: var(--serif);
+                font-weight: 400;
+                font-size: clamp(24px, 3.5vw, 44px);
+                line-height: 1.15;
+                color: var(--fg);
+                letter-spacing: -0.02em;
+                max-width: 900px;
+            }
+            .standard-band .std-title em {
+                font-style: italic;
+                color: var(--muted);
+            }
+            .standard-band .std-body {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 0;
+                border-top: 1px solid var(--border);
+                margin-top: 8px;
+            }
+            @media (max-width: 820px) {
+                .standard-band .std-body {
+                    grid-template-columns: 1fr;
+                }
+            }
+            .std-point {
+                padding: 28px 0 28px 0;
+                border-right: 1px solid var(--border);
+                padding-right: 32px;
+                margin-right: 32px;
+            }
+            .std-point:last-child {
+                border-right: none;
+                padding-right: 0;
+                margin-right: 0;
+            }
+            @media (max-width: 820px) {
+                .std-point {
+                    border-right: none;
+                    border-bottom: 1px solid var(--border);
+                    padding: 20px 0;
+                    margin-right: 0;
+                }
+                .std-point:last-child {
+                    border-bottom: none;
+                }
+            }
+            .std-point .sp-label {
+                font-family: var(--mono);
+                font-size: 10px;
+                color: var(--accent);
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                margin-bottom: 10px;
+            }
+            .std-point p {
+                color: var(--muted);
+                font-size: 14px;
+                line-height: 1.65;
+            }
+
+            /* ---------- CTA section ---------- */
+            .cta-section {
+                position: relative;
+                overflow: hidden;
+                background: var(--card);
+                border-top: 1px solid var(--border);
+            }
+            .cta-section-grid {
+                position: absolute;
+                inset: 0;
+                background-image:
+                    linear-gradient(var(--grid) 1px, transparent 1px),
+                    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+                background-size: 64px 64px;
+                mask-image: radial-gradient(
+                    ellipse at 50% 50%,
+                    #000 20%,
+                    transparent 75%
+                );
+                -webkit-mask-image: radial-gradient(
+                    ellipse at 50% 50%,
+                    #000 20%,
+                    transparent 75%
+                );
+                pointer-events: none;
+            }
+            .cta-section-inner {
+                position: relative;
+                z-index: 2;
+                text-align: center;
+                padding: 120px 0;
+            }
+            .cta-section-inner h2 {
+                font-family: var(--serif);
+                font-weight: 400;
+                font-size: clamp(36px, 5.5vw, 72px);
+                line-height: 1;
+                letter-spacing: -0.025em;
+                color: var(--fg);
+                margin-bottom: 20px;
+            }
+            .cta-section-inner h2 em {
+                font-style: italic;
+                color: var(--muted);
+            }
+            .cta-section-inner p {
+                color: var(--muted);
+                font-size: 16px;
+                max-width: 560px;
+                margin: 0 auto 40px;
+                line-height: 1.7;
+            }
+            .cta-row {
+                display: flex;
+                gap: 14px;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: center;
+            }
+
+            /* ---------- Footer ---------- */
+            footer {
+                border-top: 1px solid var(--border);
+                padding: 72px 0 40px;
+            }
+            .foot-grid {
+                display: grid;
+                grid-template-columns: 2fr 1fr 1fr 1fr;
+                gap: 48px;
+                margin-bottom: 64px;
+            }
+            @media (max-width: 900px) {
+                .foot-grid {
+                    grid-template-columns: 1fr 1fr;
+                    row-gap: 40px;
+                }
+            }
+            @media (max-width: 500px) {
+                .foot-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+            .foot-brand .brand {
+                margin-bottom: 16px;
+                display: inline-flex;
+            }
+            .foot-brand p {
+                color: var(--muted);
+                font-size: 13.5px;
+                line-height: 1.65;
+                max-width: 280px;
+            }
+            .foot-col h5 {
+                font-family: var(--mono);
+                font-size: 10px;
+                color: var(--muted);
+                letter-spacing: 0.22em;
+                text-transform: uppercase;
+                margin-bottom: 16px;
+            }
+            .foot-col a {
+                display: block;
+                font-size: 13.5px;
+                color: var(--muted);
+                margin-bottom: 10px;
+                transition: color 0.2s;
+            }
+            .foot-col a:hover {
+                color: var(--fg);
+            }
+            .foot-bottom {
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 12px;
+                padding-top: 32px;
+                border-top: 1px solid var(--border);
+                font-family: var(--mono);
+                font-size: 11px;
+                color: var(--accent);
+                letter-spacing: 0.12em;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- ============ NAVBAR ============ -->
+        <nav class="nav" role="navigation" aria-label="Main">
+            <div class="nav-inner">
+                <a class="brand" href="index.html" aria-label="Athenaeum home">
+                    <span class="brand-logo"
+                        ><img
+                            src="ATHENAEUM.png"
+                            alt="Athenaeum"
+                            width="34"
+                            height="34"
+                    /></span>
+                    <span class="brand-name">ATHENAEUM <span>JNTUK</span></span>
+                </a>
+                <button
+                    class="nav-toggle"
+                    id="navtoggle"
+                    aria-label="Menu"
+                    aria-expanded="false"
+                >
+                    ☰
+                </button>
+                <div class="nav-links" id="navlinks" role="menubar">
+                    <a href="index.html" role="menuitem">Home</a>
+                    <a href="index.html#stages" role="menuitem">Stages</a>
+                    <a href="index.html#teams" role="menuitem">Teams</a>
+                    <a href="index.html#resources" role="menuitem">Resources</a>
+                    <a href="philosophy.html" class="active" role="menuitem"
+                        >Philosophy</a
+                    >
+                    <a href="index.html#join" class="nav-cta" role="menuitem"
+                        >Apply →</a
+                    >
+                </div>
+            </div>
+        </nav>
+
+        <!-- ============ PAGE HERO ============ -->
+        <header class="page-hero" id="top">
+            <div class="hero-grid"></div>
+            <div class="hero-lines" aria-hidden="true">
+                <svg viewBox="0 0 1440 700" preserveAspectRatio="none">
+                    <g
+                        fill="none"
+                        stroke="rgba(255,255,255,0.05)"
+                        stroke-width="1"
+                    >
+                        <line x1="0" y1="100" x2="1440" y2="100" />
+                        <line x1="0" y1="600" x2="1440" y2="600" />
+                        <line x1="280" y1="0" x2="280" y2="700" />
+                        <line x1="1160" y1="0" x2="1160" y2="700" />
+                        <circle
+                            cx="280"
+                            cy="100"
+                            r="3"
+                            fill="rgba(255,255,255,0.35)"
+                        />
+                        <circle
+                            cx="1160"
+                            cy="600"
+                            r="3"
+                            fill="rgba(255,255,255,0.35)"
+                        />
+                        <line
+                            x1="280"
+                            y1="100"
+                            x2="1160"
+                            y2="600"
+                            stroke-dasharray="2 8"
+                        />
+                        <circle
+                            cx="720"
+                            cy="350"
+                            r="160"
+                            stroke-dasharray="1 10"
+                            opacity=".3"
+                        />
+                    </g>
+                </svg>
+            </div>
+            <div class="container page-hero-inner">
+                <div class="breadcrumb reveal">
+                    <a href="index.html">Home</a>
+                    <span class="sep">/</span>
+                    <span>Philosophy</span>
+                </div>
+                <div class="eyebrow reveal">
+                    <span class="dot"></span> Club doctrine · JNTUK CSE · R23
+                </div>
+                <h1 class="reveal">
+                    The principles<br />behind <em>everything</em><br />we do.
+                </h1>
+                <p class="page-hero-sub reveal">
+                    This is not a rulebook. It is a shared understanding of what
+                    we are trying to build together — why we do things the way
+                    we do, and what it looks like to grow as an engineer inside
+                    this club.
+                </p>
+                <nav class="page-nav reveal" aria-label="Page sections">
+                    <a href="#standfor">What We Stand For</a>
+                    <a href="#learning">How We Learn</a>
+                    <a href="#principles">Ten Principles</a>
+                    <a href="#priorities">How We Prioritise</a>
+                    <a href="#standard">The Standard</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- ============ BELT ============ -->
+        <div class="belt" aria-hidden="true">
+            <div class="belt-track">
+                <span>Depth Over Variety</span><span>Mastery Over Exposure</span
+                ><span>Systems Over Events</span
+                ><span>Evidence Over Claims</span
+                ><span>Curriculum Is The Floor</span
+                ><span>Build Something Real</span
+                ><span>Independence Over Dependence</span
+                ><span>Teaching Is Learning</span
+                ><span>Struggle Is The Lesson</span
+                ><span>Sustainability Over Intensity</span>
+                <span>Depth Over Variety</span><span>Mastery Over Exposure</span
+                ><span>Systems Over Events</span
+                ><span>Evidence Over Claims</span
+                ><span>Curriculum Is The Floor</span
+                ><span>Build Something Real</span
+                ><span>Independence Over Dependence</span
+                ><span>Teaching Is Learning</span
+                ><span>Struggle Is The Lesson</span
+                ><span>Sustainability Over Intensity</span>
+            </div>
+        </div>
+
+        <!-- ============ WHAT WE STAND FOR ============ -->
+        <section id="standfor">
+            <div class="container">
+                <div class="sec-head reveal">
+                    <div>
+                        <div class="sec-num">01 — What we stand for</div>
+                        <h2 class="sec-title">
+                            Not a workshop factory.
+                            <em>An engineering club.</em>
+                        </h2>
+                    </div>
+                    <p class="sec-lede">
+                        We do not run sessions to fill time. We do not chase
+                        trending tools. We do not celebrate effort — we
+                        celebrate understanding.
+                    </p>
+                </div>
+
+                <div class="manifesto-grid reveal">
+                    <div class="mani-cell">
+                        <div class="mani-label">Our Purpose</div>
+                        <h3>Build genuine<br />engineering depth</h3>
+                        <p>
+                            Not exam performance. Not portfolio decoration. Real
+                            understanding — the kind that holds up when there is
+                            no rubric, no tutorial, and no one watching.
+                        </p>
+                    </div>
+                    <div class="mani-cell dark">
+                        <div class="mani-label">Our Belief</div>
+                        <h3>
+                            JNTUK students think<br />at IIT &amp; MIT level
+                        </h3>
+                        <p>
+                            The gap is not intelligence. It is the system. The
+                            syllabus rewards memorisation. Industry rewards
+                            understanding. Athenaeum exists to close that gap.
+                        </p>
+                    </div>
+                    <div class="mani-cell dark">
+                        <div class="mani-label">What We Avoid</div>
+                        <h3>Shallow learning fails<br />the real test</h3>
+                        <p>
+                            Tutorial culture trains people to follow steps. It
+                            does not train them to question problems, design
+                            systems, or debug something they have never seen
+                            before.
+                        </p>
+                    </div>
+                    <div class="mani-cell">
+                        <div class="mani-label">The Product Goal</div>
+                        <h3>
+                            Five teams. One product.<br />Every layer
+                            integrates.
+                        </h3>
+                        <p>
+                            Specialist teams build a full-stack cross-platform
+                            application together. A backend the frontend cannot
+                            consume is not done. Integration is the standard.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Contrast: what we are vs are not -->
+                <div class="contrast-table reveal">
+                    <div>
+                        <div class="ct-head bad">✕ &nbsp;What we are not</div>
+                        <div class="ct-items">
+                            <div class="ct-item bad">
+                                We do not run workshops to fill time
+                            </div>
+                            <div class="ct-item bad">
+                                We do not chase trending tools
+                            </div>
+                            <div class="ct-item bad">
+                                We do not celebrate effort over understanding
+                            </div>
+                            <div class="ct-item bad">
+                                We do not treat the syllabus as the ceiling
+                            </div>
+                            <div class="ct-item bad">
+                                We do not reward shallow exposure
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="ct-head good">✓ &nbsp;What we are</div>
+                        <div class="ct-items">
+                            <div class="ct-item good">
+                                We run rigorous, structured learning systems
+                            </div>
+                            <div class="ct-item good">
+                                We go deep into fundamentals that outlast trends
+                            </div>
+                            <div class="ct-item good">
+                                We celebrate demonstrated understanding
+                            </div>
+                            <div class="ct-item good">
+                                We use the syllabus as the floor, never the
+                                ceiling
+                            </div>
+                            <div class="ct-item good">
+                                We require evidence before any claim counts
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ FULL-WIDTH QUOTE ============ -->
+        <div class="pull-band">
+            <div class="container">
+                <blockquote class="pull-quote reveal">
+                    "Watching tutorials without building is not learning.
+                    Memorising without understanding is not learning. If you
+                    cannot explain it without notes, you have not learned it
+                    yet."
+                    <cite>— Athenaeum Club Handbook</cite>
+                </blockquote>
+            </div>
+        </div>
+
+        <!-- ============ HOW WE LEARN ============ -->
+        <section id="learning">
+            <div class="container">
+                <div class="sec-head reveal">
+                    <div>
+                        <div class="sec-num">
+                            02 — How we think about learning
+                        </div>
+                        <h2 class="sec-title">
+                            Real learning has <em>a shape.</em>
+                        </h2>
+                    </div>
+                    <p class="sec-lede">
+                        An activity earns its place only if it passes at least
+                        one measurable test. Good intentions are not a test.
+                    </p>
+                </div>
+
+                <div class="learning-cols">
+                    <div class="learning-text reveal">
+                        <p>
+                            An activity earns its place only if it
+                            <b>deepens understanding of a core subject</b>
+                            currently being studied, builds problem-solving
+                            ability, requires something to be built or
+                            implemented — not just watched or read — or teaches
+                            a concept that unlocks multiple advanced areas.
+                        </p>
+                        <div class="block-pull">
+                            "The most important meta-skill Athenaeum builds is
+                            the ability to learn anything independently —
+                            without waiting for a teacher, a workshop, or
+                            someone to guide you through it."
+                        </div>
+                        <p>
+                            Every Athenaeum activity is anchored to what members
+                            are <b>actually studying right now</b>. We go deeper
+                            into the same foundations — DSA, OS, DBMS, Digital
+                            Logic, Discrete Math — not sideways into unrelated
+                            tools. The syllabus is our floor. The ceiling does
+                            not exist.
+                        </p>
+                        <p style="margin-top: 24px">
+                            AI tools are a tutor, not a replacement for
+                            thinking. If you cannot explain the AI's output in
+                            your own words, you have not learned anything. We
+                            use them precisely — never as a crutch.
+                        </p>
+                    </div>
+
+                    <div
+                        class="reveal"
+                        style="display: flex; flex-direction: column; gap: 32px"
+                    >
+                        <!-- Four levels -->
+                        <div>
+                            <div class="sec-num" style="margin-bottom: 18px">
+                                Four levels of independent learning
+                            </div>
+                            <div class="levels">
+                                <div class="level-row">
+                                    <div class="level-num">1</div>
+                                    <div class="level-content">
+                                        <h4>Read Before Asking</h4>
+                                        <p>
+                                            Read the error message fully before
+                                            Googling. Check official docs before
+                                            Stack Overflow. Form a hypothesis
+                                            before trying a fix.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="level-row">
+                                    <div class="level-num">2</div>
+                                    <div class="level-content">
+                                        <h4>Read Documentation</h4>
+                                        <p>
+                                            Find a function in the docs — read
+                                            its signature, parameters, return
+                                            value, and examples. Before using
+                                            any library, read the README first.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="level-row">
+                                    <div class="level-num">3</div>
+                                    <div class="level-content">
+                                        <h4>Learn From Source Code</h4>
+                                        <p>
+                                            Read the CPython source for a
+                                            built-in. Read a small open-source
+                                            project end to end. Understand why a
+                                            library behaves the way it does.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="level-row">
+                                    <div class="level-num">4</div>
+                                    <div class="level-content">
+                                        <h4>First-Principles Reconstruction</h4>
+                                        <p>
+                                            Implement a hashmap before using
+                                            Python's dict. Explain OS paging
+                                            without notes. Derive Big-O for
+                                            merge sort — don't memorise it.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI tools -->
+                        <div>
+                            <div class="sec-num" style="margin-bottom: 18px">
+                                AI tools — how we use them
+                            </div>
+                            <div class="ai-table">
+                                <div>
+                                    <div class="ai-col-head ok">
+                                        ✓ Acceptable
+                                    </div>
+                                    <div class="ai-items">
+                                        <div class="ai-item">
+                                            "Explain this concept to me like I'm
+                                            a beginner"
+                                        </div>
+                                        <div class="ai-item">
+                                            "What's wrong with my reasoning?"
+                                            (after your attempt)
+                                        </div>
+                                        <div class="ai-item">
+                                            "Review my code and tell me what's
+                                            unclear"
+                                        </div>
+                                        <div class="ai-item">
+                                            "Give me a harder version of this
+                                            problem"
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="ai-col-head no">
+                                        ✕ Not Acceptable
+                                    </div>
+                                    <div class="ai-items">
+                                        <div class="ai-item">
+                                            "Write this function for me"
+                                        </div>
+                                        <div class="ai-item">
+                                            "Solve this Leetcode problem"
+                                        </div>
+                                        <div class="ai-item">
+                                            Using output you cannot explain line
+                                            by line
+                                        </div>
+                                        <div class="ai-item">
+                                            "Complete my assignment"
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ SECOND PULL QUOTE ============ -->
+        <div class="pull-band">
+            <div class="container">
+                <blockquote class="pull-quote reveal">
+                    "The rule: if you cannot explain the AI's output in your own
+                    words, you have not learned anything. AI is a tutor — not a
+                    replacement for thinking."
+                    <cite>— Athenaeum Club Handbook · Section 4</cite>
+                </blockquote>
+            </div>
+        </div>
+
+        <!-- ============ TEN PRINCIPLES ============ -->
+        <section id="principles">
+            <div class="container">
+                <div class="sec-head reveal">
+                    <div>
+                        <div class="sec-num">03 — Operating principles</div>
+                        <h2 class="sec-title">
+                            Ten principles. <em>Every decision</em> runs through
+                            them.
+                        </h2>
+                    </div>
+                    <p class="sec-lede">
+                        These are not slogans. They are decisions we make every
+                        day about what to work on, how to work on it, and how to
+                        know if we are making real progress.
+                    </p>
+                </div>
+
+                <div class="principles-ten">
+                    <article class="prin-card reveal">
+                        <span class="corner"></span>
+                        <div class="prin-num">P / 01</div>
+                        <h3>Depth Over Variety</h3>
+                        <p>
+                            Mastering OS internals beats skimming five trending
+                            frameworks. Pick one thing and go deep.
+                            Surface-level exposure to many things produces a
+                            person who knows words, not concepts.
+                        </p>
+                        <div class="prin-action">
+                            One topic understood completely > ten topics skimmed
+                        </div>
+                    </article>
+                    <article class="prin-card reveal">
+                        <span class="corner"></span>
+                        <div class="prin-num">P / 02</div>
+                        <h3>Mastery Over Exposure</h3>
+                        <p>
+                            Attendance is not learning. Watching is not
+                            learning. Being able to build something matters more
+                            than being able to describe it. Build first — then
+                            explain.
+                        </p>
+                        <div class="prin-action">
+                            You have mastered it when you can build and explain
+                            it without notes
+                        </div>
+                    </article>
+                    <article class="prin-card reveal">
+                        <span class="corner"></span>
+                        <div class="prin-num">P / 03</div>
+                        <h3>Systems Over Events</h3>
+                        <p>
+                            One-off workshops do not change engineers. Repeated,
+                            rigorous systems — code reviews, project ownership,
+                            deep dives — do. Consistency is the mechanism. A
+                            sprint that burns you out is not the goal.
+                        </p>
+                        <div class="prin-action">
+                            Regular practice beats one-off workshops
+                        </div>
+                    </article>
+                    <article class="prin-card reveal">
+                        <span class="corner"></span>
+                        <div class="prin-num">P / 04</div>
+                        <h3>Curriculum as Floor, Not Ceiling</h3>
+                        <p>
+                            The JNTUK syllabus is the minimum required bar.
+                            Athenaeum starts where the lecture ends — and asks
+                            what the lecture left out. We go beyond it, always.
+                        </p>
+                        <div class="prin-action">
+                            Every member is expected to go beyond the syllabus
+                        </div>
+                    </article>
+                    <article class="prin-card reveal">
+                        <span class="corner"></span>
+                        <div class="prin-num">P / 05</div>
+                        <h3>Independence Over Dependence</h3>
+                        <p>
+                            A member who can teach themselves anything is more
+                            valuable than one who knows many things but cannot
+                            learn new ones. Read the docs. Form a hypothesis.
+                            Then ask.
+                        </p>
+                        <div class="prin-action">
+                            The goal is the ability to learn anything
+                            independently
+                        </div>
+                    </article>
+                    <article class="prin-card reveal">
+                        <span class="corner"></span>
+                        <div class="prin-num">P / 06</div>
+                        <h3>Struggle Is the Lesson</h3>
+                        <p>
+                            Discomfort when learning something hard is the
+                            signal it is working — not a reason to stop. The
+                            feeling of being stuck is where real learning
+                            happens. Sit with it.
+                        </p>
+                        <div class="prin-action">
+                            Difficulty is a signal you're in the right place
+                        </div>
+                    </article>
+                    <article class="prin-card reveal">
+                        <span class="corner"></span>
+                        <div class="prin-num">P / 07</div>
+                        <h3>Substance Before Communication</h3>
+                        <p>
+                            Build something real first. Then learn to explain it
+                            clearly. The order matters. Communication that
+                            precedes substance is noise. Communication that
+                            follows it is signal.
+                        </p>
+                        <div class="prin-action">
+                            Build first. Explain after. Never the reverse.
+                        </div>
+                    </article>
+                    <article class="prin-card reveal">
+                        <span class="corner"></span>
+                        <div class="prin-num">P / 08</div>
+                        <h3>Evidence Over Claims</h3>
+                        <p>
+                            Show the commit. Show the deployed link. Show the
+                            explanation. Claims without evidence do not count
+                            toward growth inside Athenaeum. This applies to
+                            everyone.
+                        </p>
+                        <div class="prin-action">
+                            What you built matters. What you say you learned
+                            does not count until demonstrated.
+                        </div>
+                    </article>
+                    <article class="prin-card reveal">
+                        <span class="corner"></span>
+                        <div class="prin-num">P / 09</div>
+                        <h3>Teaching Is Learning</h3>
+                        <p>
+                            If you are Stage 3 or 4 and you are not teaching
+                            others, you are not fully using what you know.
+                            Mastery carries an obligation to transfer the basics
+                            to the next batch.
+                        </p>
+                        <div class="prin-action">
+                            Mastery is incomplete without the obligation to
+                            teach
+                        </div>
+                    </article>
+                    <article class="prin-card reveal">
+                        <span class="corner"></span>
+                        <div class="prin-num">P / 10</div>
+                        <h3>Sustainability Over Intensity</h3>
+                        <p>
+                            A member who builds consistently for 12 months beats
+                            one who sprints for 3 and burns out. The goal is an
+                            engineer who is still getting better in year five —
+                            not one who peaked in a hackathon.
+                        </p>
+                        <div class="prin-action">
+                            12 months of consistency > 3 months of intensity
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ PRIORITIES ============ -->
+        <section id="priorities">
+            <div class="container">
+                <div class="sec-head reveal">
+                    <div>
+                        <div class="sec-num">04 — How we prioritise</div>
+                        <h2 class="sec-title">
+                            A consistent order. <em>Every conflict</em> resolved
+                            by it.
+                        </h2>
+                    </div>
+                    <p class="sec-lede">
+                        When an activity conflicts with a higher priority, it is
+                        rejected or delayed. Not negotiated around.
+                    </p>
+                </div>
+
+                <div class="priority-stack reveal">
+                    <div class="prio-row">
+                        <div class="prio-n">1</div>
+                        <div class="prio-body">
+                            <h4>Engineering Fundamentals</h4>
+                            <p>
+                                DSA, OS, DBMS, Digital Logic, Discrete Math,
+                                Computer Networks, coding correctness. This
+                                always comes first. Everything else is built on
+                                whether this foundation is solid.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="prio-row">
+                        <div class="prio-n">2</div>
+                        <div class="prio-body">
+                            <h4>Depth Beyond the Syllabus</h4>
+                            <p>
+                                Going further than coursework: correctness
+                                proofs, real implementations, reading research
+                                papers. The syllabus ends — the learning does
+                                not.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="prio-row">
+                        <div class="prio-n">3</div>
+                        <div class="prio-body">
+                            <h4>Long-Term Skill Growth</h4>
+                            <p>
+                                Projects, competitive programming, open source,
+                                internship preparation. These compound over 12
+                                months. They are not optional — they are the
+                                output of the first two priorities done
+                                correctly.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="prio-row">
+                        <div class="prio-n">4</div>
+                        <div class="prio-body">
+                            <h4>Practical Application</h4>
+                            <p>
+                                Real-world deployment, industry tools,
+                                cross-platform product work. Application is only
+                                meaningful when the fundamentals underneath it
+                                are solid.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="prio-row">
+                        <div class="prio-n">5</div>
+                        <div class="prio-body">
+                            <h4>Member Engagement</h4>
+                            <p>
+                                Interest, motivation, participation. Important —
+                                but never purchased at the cost of the four
+                                things above. Engagement that requires lowering
+                                the standard is the wrong kind of engagement.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="prio-row">
+                        <div class="prio-n">6</div>
+                        <div class="prio-body">
+                            <h4>Creative &amp; Optional</h4>
+                            <p>
+                                Video editing, design, social media — valid only
+                                when it supports a technical output. Built in
+                                off-peak periods — after exams, during
+                                vacations, in the last hour of a session when
+                                the technical work is done.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calendar -->
+                <div style="margin-top: 48px">
+                    <div class="sec-num reveal" style="margin-bottom: 24px">
+                        Academic calendar — what we focus on when
+                    </div>
+                    <div class="cal-grid reveal">
+                        <div class="cal-cell">
+                            <div class="cal-period">During Exams</div>
+                            <h4>Exam-Relevant Depth Only</h4>
+                            <p>
+                                Activities directly relevant to upcoming exams —
+                                and only at depth, not surface coverage.
+                            </p>
+                        </div>
+                        <div class="cal-cell">
+                            <div class="cal-period">Early Semester</div>
+                            <h4>Foundations &amp; Concepts</h4>
+                            <p>
+                                Build the base for everything that follows. No
+                                project work until the concepts underneath it
+                                are solid.
+                            </p>
+                        </div>
+                        <div class="cal-cell">
+                            <div class="cal-period">Mid Semester</div>
+                            <h4>Project Work &amp; Implementation</h4>
+                            <p>
+                                Implementation challenges, coding sessions,
+                                applying the conceptual foundation in real code.
+                            </p>
+                        </div>
+                        <div class="cal-cell">
+                            <div class="cal-period">After Exams</div>
+                            <h4>Sprints &amp; Open Source</h4>
+                            <p>
+                                Extended projects, DSA sprints, open source
+                                contributions, research papers, internship prep.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ THE STANDARD ============ -->
+        <section id="standard">
+            <div class="container">
+                <div class="sec-head reveal">
+                    <div>
+                        <div class="sec-num">05 — The Athenaeum standard</div>
+                        <h2 class="sec-title">
+                            One sentence. <em>Every activity</em> must pass it.
+                        </h2>
+                    </div>
+                    <p class="sec-lede">
+                        This is the test we run on every session, every project,
+                        every activity — without exception.
+                    </p>
+                </div>
+
+                <div class="standard-band reveal">
+                    <div class="std-label">The Standard</div>
+                    <div class="std-title">
+                        Every activity should move you one step closer to being
+                        the kind of engineer who can —
+                        <em>learn anything independently</em>, build anything
+                        from scratch, explain anything clearly, and help the
+                        person next to them do the same.
+                    </div>
+                    <div class="std-body">
+                        <div class="std-point">
+                            <div class="sp-label">Learn Anything</div>
+                            <p>
+                                No dependency on tutorials, teachers, or
+                                guidance. Read the docs. Form a hypothesis.
+                                Build a mental model from incomplete sources.
+                            </p>
+                        </div>
+                        <div class="std-point">
+                            <div class="sp-label">Build Anything</div>
+                            <p>
+                                From scratch. With a proper README. On GitHub.
+                                With meaningful commits that tell the story of
+                                how it was built. Not a tutorial clone.
+                            </p>
+                        </div>
+                        <div class="std-point">
+                            <div class="sp-label">Teach Anyone</div>
+                            <p>
+                                If you are Stage 3 or 4 and you are not
+                                teaching, you are not fully using what you know.
+                                Mastery carries an obligation to transfer.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ CTA ============ -->
+        <section class="cta-section">
+            <div class="cta-section-grid"></div>
+            <div class="container">
+                <div class="cta-section-inner reveal">
+                    <h2>Build beyond <em>the syllabus.</em></h2>
+                    <p>
+                        Athenaeum is for the students who already suspect the
+                        curriculum is the floor. If you want depth, evidence,
+                        and engineering that holds up under questioning — this
+                        is your club.
+                    </p>
+                    <div class="cta-row">
+                        <a href="index.html#join" class="btn btn-primary"
+                            >Apply to Athenaeum <span class="arrow">→</span></a
+                        >
+                        <a href="index.html" class="btn btn-ghost"
+                            >Back to Home</a
+                        >
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ FOOTER ============ -->
+        <footer>
+            <div class="container">
+                <div class="foot-grid">
+                    <div class="foot-brand">
+                        <a class="brand" href="index.html">
+                            <span class="brand-logo"
+                                ><img
+                                    src="ATHENAEUM.png"
+                                    alt=""
+                                    width="34"
+                                    height="34"
+                            /></span>
+                            <span class="brand-name">ATHENAEUM</span>
+                        </a>
+                        <p>
+                            A student-led engineering depth club at JNTUK. We
+                            build engineers who can learn anything, build
+                            anything, and explain anything.
+                        </p>
+                    </div>
+                    <div class="foot-col">
+                        <h5>Club</h5>
+                        <a href="index.html#philosophy">About</a
+                        ><a href="index.html#stages">Stages</a
+                        ><a href="index.html#teams">Teams</a
+                        ><a href="index.html#join">Join</a>
+                    </div>
+                    <div class="foot-col">
+                        <h5>Philosophy</h5>
+                        <a href="#standfor">What We Stand For</a
+                        ><a href="#learning">How We Learn</a
+                        ><a href="#principles">Ten Principles</a
+                        ><a href="#priorities">Priorities</a>
+                    </div>
+                    <div class="foot-col">
+                        <h5>Connect</h5>
+                        <a href="#">GitHub</a><a href="#">LinkedIn</a
+                        ><a href="#">Discord</a><a href="#">Email</a>
+                    </div>
+                </div>
+                <div class="foot-bottom">
+                    <span>© 2026 Athenaeum · JNTUK CSE · R23</span>
+                    <span>Depth · Mastery · Systems · Evidence</span>
+                </div>
+            </div>
+        </footer>
+
+        <script>
+            // Reveal-on-scroll (identical mechanism to index.html)
+            const io = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((e) => {
+                        if (e.isIntersecting) {
+                            e.target.classList.add("in");
+                            io.unobserve(e.target);
+                        }
+                    });
+                },
+                { threshold: 0.1 },
+            );
+            document
+                .querySelectorAll(".reveal")
+                .forEach((el) => io.observe(el));
+
+            // Stagger reveal children inside grids
+            document
+                .querySelectorAll(".principles-ten, .manifesto-grid")
+                .forEach((grid) => {
+                    const cards = grid.querySelectorAll(".reveal");
+                    cards.forEach((card, i) => {
+                        card.style.transitionDelay = `${i * 60}ms`;
+                    });
+                });
+
+            // Mobile nav toggle
+            const toggle = document.getElementById("navtoggle");
+            const links = document.getElementById("navlinks");
+            toggle.addEventListener("click", () => {
+                const open = links.classList.toggle("open");
+                toggle.setAttribute("aria-expanded", open);
+                toggle.textContent = open ? "✕" : "☰";
+            });
+            document.querySelectorAll("#navlinks a").forEach((a) =>
+                a.addEventListener("click", () => {
+                    links.classList.remove("open");
+                    toggle.setAttribute("aria-expanded", false);
+                    toggle.textContent = "☰";
+                }),
+            );
+        </script>
+    </body>
+</html>
