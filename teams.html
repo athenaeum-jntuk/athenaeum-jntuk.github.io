@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Teams — Athenaeum · Engineering Divisions</title>
+    <meta name="description" content="Athenaeum specialist teams are structured engineering divisions, each owning a layer of the stack. Depth emerges through focus." />
+    <link rel="icon" href="ATHENAEUM.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet" />
+    <style>
+        /* ---------- Design tokens ---------- */
+        :root {
+            --bg: #0a0a0a;
+            --fg: #f5f5f5;
+            --muted: #8a8a8a;
+            --accent: #7a7a7a;
+            --card: #111111;
+            --border: #2a2a2a;
+            --hover: #1e1e1e;
+            --grid: rgba(255,255,255,0.035);
+            --maxw: 1240px;
+            --serif: "Fraunces","Times New Roman",serif;
+            --sans: "Inter",ui-sans-serif,system-ui,-apple-system,sans-serif;
+            --mono: "JetBrains Mono",ui-monospace,Menlo,monospace;
+        }
+        *{box-sizing:border-box;margin:0;padding:0;}
+        html{scroll-behavior:smooth;}
+        body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-weight:400;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+        a{color:inherit;text-decoration:none;}
+        ::selection{background:#f5f5f5;color:#0a0a0a;}
+
+        /* ---------- Layout ---------- */
+        .container{max-width:var(--maxw);margin:0 auto;padding:0 32px;}
+        section{padding:120px 0;position:relative;border-top:1px solid var(--border);}
+        section:first-of-type{border-top:none;}
+
+        /* ---------- Navbar ---------- */
+        .nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,10,0.72);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border-bottom:1px solid var(--border);}
+        .nav-inner{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 32px;}
+        .brand{display:flex;align-items:center;gap:12px;}
+        .brand-logo{width:34px;height:34px;flex:0 0 34px;border:1px solid var(--border);border-radius:6px;overflow:hidden;background:#000;display:flex;align-items:center;justify-content:center;}
+        .brand-logo img{width:100%;height:100%;object-fit:contain;display:block;}
+        .brand-name{font-family:var(--sans);font-weight:700;letter-spacing:0.22em;font-size:14px;color:var(--fg);}
+        .brand-name span{color:var(--muted);font-weight:400;margin-left:6px;letter-spacing:0.18em;font-size:11px;}
+        .nav-links{display:flex;align-items:center;gap:6px;}
+        .nav-links a{padding:8px 14px;font-size:13px;color:var(--muted);letter-spacing:0.04em;border-radius:6px;transition:color 0.25s,background 0.25s;}
+        .nav-links a:hover,.nav-links a.active{color:var(--fg);background:var(--hover);}
+        .nav-links a.active{color:var(--fg);}
+        .nav-cta{margin-left:8px;padding:9px 16px !important;border:1px solid var(--border);color:var(--fg) !important;font-weight:500;}
+        .nav-cta:hover{background:var(--fg) !important;color:var(--bg) !important;border-color:var(--fg);}
+        .nav-toggle{display:none;background:none;border:1px solid var(--border);color:var(--fg);width:38px;height:38px;border-radius:6px;cursor:pointer;font-size:18px;}
+
+        @media(max-width:860px){
+            .nav-links{position:absolute;top:100%;left:0;right:0;background:rgba(10,10,10,0.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);flex-direction:column;align-items:stretch;gap:0;padding:12px 16px 18px;transform:translateY(-12px);opacity:0;pointer-events:none;transition:0.25s ease;}
+            .nav-links.open{transform:translateY(0);opacity:1;pointer-events:auto;}
+            .nav-links a{padding:14px 12px;border-bottom:1px solid var(--border);}
+            .nav-links a:last-child{border-bottom:none;}
+            .nav-cta{margin-left:0 !important;text-align:center;}
+            .nav-toggle{display:inline-flex;align-items:center;justify-content:center;}
+        }
+
+        /* ---------- Reveal animation ---------- */
+        .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease;}
+        .reveal.in{opacity:1;transform:translateY(0);}
+        .reveal-delay-1{transition-delay:0.1s;}
+        .reveal-delay-2{transition-delay:0.2s;}
+        .reveal-delay-3{transition-delay:0.3s;}
+        .reveal-delay-4{transition-delay:0.4s;}
+        .reveal-delay-5{transition-delay:0.5s;}
+
+        /* ---------- Buttons ---------- */
+        .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;font-size:14px;font-weight:500;letter-spacing:0.02em;border-radius:8px;border:1px solid transparent;cursor:pointer;transition:all 0.25s ease;}
+        .btn-primary{background:var(--fg);color:var(--bg);}
+        .btn-primary:hover{background:#fff;transform:translateY(-1px);}
+        .btn-ghost{background:transparent;color:var(--fg);border-color:var(--border);}
+        .btn-ghost:hover{background:var(--hover);border-color:var(--accent);}
+        .btn .arrow{transition:transform 0.25s;}
+        .btn:hover .arrow{transform:translateX(3px);}
+
+        /* ---------- Eyebrow / chips ---------- */
+        .eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase;padding:7px 14px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,0.02);margin-bottom:36px;}
+        .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--fg);box-shadow:0 0 12px rgba(245,245,245,0.6);}
+        .chip{font-family:var(--mono);font-size:10.5px;color:var(--muted);padding:5px 10px;border:1px solid var(--border);border-radius:999px;letter-spacing:0.06em;}
+
+        /* ---------- Section heading ---------- */
+        .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;margin-bottom:64px;flex-wrap:wrap;}
+        .sec-num{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+        .sec-num::before{content:"";width:24px;height:1px;background:var(--accent);}
+        .sec-title{font-family:var(--serif);font-weight:400;font-size:clamp(34px,4.4vw,58px);line-height:1.05;letter-spacing:-0.02em;color:var(--fg);max-width:820px;}
+        .sec-title em{font-style:italic;color:var(--muted);}
+        .sec-lede{color:var(--muted);max-width:380px;font-size:15px;line-height:1.7;}
+
+        /* ---------- HERO ---------- */
+        .hero{min-height:100vh;padding:160px 0 100px;display:flex;align-items:center;position:relative;overflow:hidden;border-top:none;}
+        .hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse at 50% 40%,#000 30%,transparent 80%);-webkit-mask-image:radial-gradient(ellipse at 50% 40%,#000 30%,transparent 80%);pointer-events:none;}
+        .hero-inner{position:relative;z-index:2;max-width:1100px;}
+        h1.hero-title{font-family:var(--serif);font-weight:400;font-size:clamp(48px,8.2vw,124px);line-height:0.98;letter-spacing:-0.03em;color:var(--fg);margin-bottom:28px;}
+        h1.hero-title em{font-style:italic;color:var(--muted);font-weight:300;}
+        .hero-sub{font-size:clamp(16px,1.4vw,19px);color:var(--muted);max-width:680px;margin-bottom:44px;line-height:1.6;}
+        .hero-sub b{color:var(--fg);font-weight:500;}
+        .cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center;}
+
+        .hero-stats{margin-top:90px;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+        .hero-stat{padding:28px 24px;border-right:1px solid var(--border);}
+        .hero-stat:last-child{border-right:none;}
+        .hero-stat .num{font-family:var(--serif);font-size:44px;color:var(--fg);line-height:1;margin-bottom:8px;font-weight:400;}
+        .hero-stat .lbl{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase;}
+        @media(max-width:760px){
+            .hero-stats{grid-template-columns:repeat(2,1fr);}
+            .hero-stat:nth-child(2){border-right:none;}
+            .hero-stat:nth-child(1),.hero-stat:nth-child(2){border-bottom:1px solid var(--border);}
+        }
+
+        /* ---------- Philosophy split ---------- */
+        .phil-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:80px;align-items:start;}
+        @media(max-width:900px){.phil-grid{grid-template-columns:1fr;gap:48px;}}
+        .phil-text p{color:var(--muted);font-size:16px;line-height:1.8;margin-bottom:20px;}
+        .phil-text p b{color:var(--fg);font-weight:500;}
+        .pull-quote{border-left:2px solid var(--fg);padding:8px 0 8px 24px;font-family:var(--serif);font-style:italic;font-size:22px;line-height:1.4;color:var(--fg);margin:32px 0;}
+        .phil-side{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);}
+        .phil-card{background:var(--bg);padding:28px;}
+        .phil-card h4{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:12px;}
+        .phil-card p{color:var(--fg);font-size:15px;line-height:1.55;}
+        .phil-card p span{color:var(--muted);}
+
+        /* ---------- Teams grid ---------- */
+        .teams-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
+        @media(max-width:980px){.teams-grid{grid-template-columns:repeat(2,1fr);}}
+        @media(max-width:600px){.teams-grid{grid-template-columns:1fr;}}
+        .team-card{background:var(--card);padding:40px 34px;display:flex;flex-direction:column;gap:18px;transition:background 0.3s,transform 0.3s;position:relative;min-height:420px;}
+        .team-card:hover{background:var(--hover);transform:translateY(-3px);}
+        .team-card .corner{position:absolute;top:18px;right:20px;width:8px;height:8px;border-top:1px solid var(--accent);border-right:1px solid var(--accent);opacity:0.6;}
+        .team-head{display:flex;align-items:center;justify-content:space-between;}
+        .team-icon{width:44px;height:44px;border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:14px;color:var(--fg);background:rgba(255,255,255,0.02);}
+        .team-tag{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:0.2em;text-transform:uppercase;}
+        .team-card h3{font-family:var(--serif);font-weight:400;font-size:28px;color:var(--fg);letter-spacing:-0.01em;line-height:1.1;}
+        .team-card .mission{color:var(--muted);font-size:14.5px;line-height:1.65;}
+        .team-card .focus-label{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:0.18em;text-transform:uppercase;margin-top:6px;}
+        .team-stack{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:14px;}
+        /* wide card spans 2 columns */
+        .team-card.wide{grid-column:span 2;}
+        @media(max-width:980px){.team-card.wide{grid-column:span 1;}}
+
+        /* ---------- Workflow pipeline ---------- */
+        .pipeline{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:64px;}
+        @media(max-width:900px){.pipeline{grid-template-columns:repeat(2,1fr);}}
+        @media(max-width:540px){.pipeline{grid-template-columns:1fr;}}
+        .pipe-node{background:var(--card);padding:32px 24px;position:relative;transition:background 0.3s;}
+        .pipe-node:hover{background:var(--hover);}
+        .pipe-idx{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:20px;}
+        .pipe-node h4{font-family:var(--serif);font-weight:400;font-size:20px;color:var(--fg);margin-bottom:10px;letter-spacing:-0.01em;}
+        .pipe-node p{color:var(--muted);font-size:13.5px;line-height:1.6;}
+        .pipe-arrow{display:none;}
+        @media(min-width:901px){
+            .pipe-node{padding-right:32px;}
+            .pipe-node:not(:last-child)::after{content:"→";position:absolute;right:-14px;top:50%;transform:translateY(-50%);color:var(--accent);font-family:var(--mono);font-size:14px;z-index:2;}
+        }
+        .workflow-note{background:var(--card);border:1px solid var(--border);padding:28px 32px;display:flex;align-items:center;gap:24px;}
+        .workflow-note p{color:var(--muted);font-size:15px;line-height:1.7;}
+        .workflow-note p b{color:var(--fg);}
+        .workflow-dot{width:8px;height:8px;border-radius:50%;background:var(--fg);flex-shrink:0;box-shadow:0 0 10px rgba(245,245,245,0.4);}
+
+        /* ---------- Growth timeline ---------- */
+        .growth-rows{display:flex;flex-direction:column;}
+        .growth-row{display:grid;grid-template-columns:180px 1fr;gap:48px;padding:40px 0;border-top:1px solid var(--border);transition:background 0.3s;}
+        .growth-row:hover{background:linear-gradient(90deg,rgba(255,255,255,0.02),transparent);}
+        .growth-row:last-child{border-bottom:1px solid var(--border);}
+        @media(max-width:800px){.growth-row{grid-template-columns:1fr;gap:16px;}}
+        .growth-stage{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase;padding-top:6px;}
+        .growth-stage strong{display:block;font-family:var(--serif);font-size:26px;color:var(--fg);font-weight:400;letter-spacing:-0.01em;margin-bottom:4px;font-style:normal;}
+        .growth-body{display:grid;grid-template-columns:1fr 1.4fr;gap:40px;align-items:start;}
+        @media(max-width:700px){.growth-body{grid-template-columns:1fr;gap:16px;}}
+        .growth-body h4{font-family:var(--serif);font-weight:400;font-size:22px;color:var(--fg);margin-bottom:10px;letter-spacing:-0.01em;}
+        .growth-body p{color:var(--muted);font-size:15px;line-height:1.75;}
+        .growth-evidence{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:0.06em;margin-top:12px;}
+        .growth-evidence span{color:var(--fg);}
+
+        /* ---------- Real engineering section ---------- */
+        .re-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
+        @media(max-width:900px){.re-grid{grid-template-columns:repeat(2,1fr);}}
+        @media(max-width:540px){.re-grid{grid-template-columns:1fr;}}
+        .re-card{background:var(--card);padding:36px 30px;transition:background 0.3s,transform 0.3s;}
+        .re-card:hover{background:var(--hover);transform:translateY(-2px);}
+        .re-card .re-num{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:0.2em;margin-bottom:20px;}
+        .re-card h3{font-family:var(--serif);font-weight:400;font-size:24px;color:var(--fg);margin-bottom:14px;letter-spacing:-0.01em;}
+        .re-card p{color:var(--muted);font-size:14.5px;line-height:1.65;}
+
+        /* ---------- Final CTA ---------- */
+        .cta{position:relative;overflow:hidden;padding:160px 0;text-align:center;border-top:1px solid var(--border);}
+        .cta-grid-bg{position:absolute;inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse at 50% 50%,#000 10%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse at 50% 50%,#000 10%,transparent 70%);pointer-events:none;}
+        .cta-inner{position:relative;z-index:2;}
+        .cta h2{font-family:var(--serif);font-weight:400;font-size:clamp(36px,5.5vw,80px);line-height:1.0;letter-spacing:-0.025em;color:var(--fg);margin-bottom:24px;}
+        .cta h2 em{font-style:italic;color:var(--muted);}
+        .cta p{color:var(--muted);font-size:17px;max-width:560px;margin:0 auto 48px;line-height:1.7;}
+
+        /* ---------- Footer ---------- */
+        footer{border-top:1px solid var(--border);padding:64px 0 40px;}
+        .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:56px;}
+        @media(max-width:860px){.foot-grid{grid-template-columns:1fr 1fr;gap:36px;}}
+        @media(max-width:540px){.foot-grid{grid-template-columns:1fr;}}
+        .foot-brand .brand{margin-bottom:20px;}
+        .foot-brand p{color:var(--muted);font-size:14px;line-height:1.7;max-width:280px;}
+        .foot-col h5{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:18px;}
+        .foot-col a{display:block;color:var(--muted);font-size:14px;margin-bottom:11px;transition:color 0.2s;}
+        .foot-col a:hover{color:var(--fg);}
+        .foot-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:32px;border-top:1px solid var(--border);font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:0.08em;flex-wrap:wrap;gap:12px;}
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="nav">
+    <div class="nav-inner">
+        <a class="brand" href="index.html">
+            <span class="brand-logo"><img src="ATHENAEUM.png" alt="Athenaeum" width="34" height="34" /></span>
+            <span class="brand-name">ATHENAEUM<span>JNTUK · CSE</span></span>
+        </a>
+        <button class="nav-toggle" id="navtoggle" aria-label="Menu">☰</button>
+        <div class="nav-links" id="navlinks">
+            <a href="index.html">Home</a>
+            <a href="philosophy.html">Philosophy</a>
+            <a href="teams.html" class="active">Teams</a>
+            <a href="resources.html">Resources</a>
+            <a href="posts.html">Posts</a>
+            <a href="join.html" class="nav-cta">Join</a>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-grid"></div>
+    <div class="container">
+        <div class="hero-inner">
+            <div class="eyebrow reveal">
+                <span class="dot"></span>
+                <span>Engineering Divisions · Athenaeum</span>
+            </div>
+            <h1 class="hero-title reveal reveal-delay-1">
+                Engineering<br>Requires<br><em>Specialization.</em>
+            </h1>
+            <p class="hero-sub reveal reveal-delay-2">
+                Athenaeum teams are not committees. They are <b>specialist engineering divisions</b> — each owning a real layer of the stack, each building depth through sustained, focused work over semesters, not sessions.
+            </p>
+            <div class="cta-row reveal reveal-delay-3">
+                <a class="btn btn-primary" href="#teams">
+                    View Divisions <span class="arrow">→</span>
+                </a>
+                <a class="btn btn-ghost" href="join.html">
+                    Apply to a Team
+                </a>
+            </div>
+            <div class="hero-stats reveal reveal-delay-4">
+                <div class="hero-stat">
+                    <div class="num">5</div>
+                    <div class="lbl">Specialist Divisions</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="num">1</div>
+                    <div class="lbl">Unified Product</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="num">4</div>
+                    <div class="lbl">Growth Stages</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="num">∞</div>
+                    <div class="lbl">Engineering Ceiling</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TEAM PHILOSOPHY -->
+<section>
+    <div class="container">
+        <div class="sec-head reveal">
+            <div>
+                <div class="sec-num">02 — Philosophy</div>
+                <h2 class="sec-title">Why teams exist <em>at all.</em></h2>
+            </div>
+            <p class="sec-lede">Specialization is not fragmentation. It is how systems achieve depth that generalism never can.</p>
+        </div>
+        <div class="phil-grid">
+            <div class="phil-text reveal">
+                <p>Most clubs divide members into committees. Athenaeum divides responsibility into <b>engineering layers</b>. The distinction matters more than it sounds.</p>
+                <p>A committee exists to complete tasks. A division exists to <b>accumulate expertise over time</b>. Members who join the Systems team do not dabble in systems — they build intuition for low-level architecture, concurrency, and infrastructure across every semester they are here.</p>
+                <div class="pull-quote">
+                    Depth in one area always beats surface-level exposure to many.
+                </div>
+                <p>Athenaeum's product goal is collective: five specialist teams build one full-stack, cross-platform application together. Each team owns a layer. All layers must integrate. <b>This is how real software companies operate.</b></p>
+                <p>You do not move between teams randomly. You build mastery in one place — and then, when your depth is sufficient, you teach others. That obligation to teach is how the whole system compounds.</p>
+            </div>
+            <div class="phil-side reveal reveal-delay-2">
+                <div class="phil-card">
+                    <h4>Ownership Model</h4>
+                    <p>Each team owns its layer end-to-end. <span>No one else holds your architecture accountable.</span></p>
+                </div>
+                <div class="phil-card">
+                    <h4>Systems Thinking</h4>
+                    <p>Your decisions affect every other team. <span>Build with integration in mind, always.</span></p>
+                </div>
+                <div class="phil-card">
+                    <h4>Teaching Obligation</h4>
+                    <p>Mastering a skill carries a responsibility. <span>Share its foundations with every junior member.</span></p>
+                </div>
+                <div class="phil-card">
+                    <h4>Long-Term Depth</h4>
+                    <p>One semester of focused work beats <span>three semesters of scattered exposure.</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TEAMS GRID -->
+<section id="teams">
+    <div class="container">
+        <div class="sec-head reveal">
+            <div>
+                <div class="sec-num">03 — Divisions</div>
+                <h2 class="sec-title">The five <em>specialist teams.</em></h2>
+            </div>
+            <p class="sec-lede">Each division owns a distinct layer of the engineering stack. Together they ship one product.</p>
+        </div>
+        <div class="teams-grid reveal reveal-delay-1">
+
+            <!-- Systems Team -->
+            <div class="team-card wide">
+                <div class="corner"></div>
+                <div class="team-head">
+                    <div class="team-icon">SYS</div>
+                    <span class="team-tag">Division · 01</span>
+                </div>
+                <h3>Systems Team</h3>
+                <p class="mission">The foundation that every other team builds on. The Systems team is responsible for infrastructure architecture, build tooling, deployment pipelines, and the low-level engineering decisions that determine whether the entire product holds under pressure.</p>
+                <p class="mission">Members work at the intersection of operating systems, concurrency, process management, and real deployment environments. This is not DevOps as a service — this is <b>engineering ownership of the stack itself</b>.</p>
+                <p class="focus-label">Engineering Focus</p>
+                <p class="mission">Linux internals · process scheduling · memory architecture · CI/CD pipelines · containerisation · system design at scale · build tooling · cross-platform compatibility</p>
+                <div class="team-stack">
+                    <span class="chip">Rust</span>
+                    <span class="chip">Go</span>
+                    <span class="chip">Linux</span>
+                    <span class="chip">Docker</span>
+                    <span class="chip">Git</span>
+                    <span class="chip">Shell</span>
+                    <span class="chip">System Design</span>
+                    <span class="chip">CI/CD</span>
+                </div>
+            </div>
+
+            <!-- DB Team -->
+            <div class="team-card">
+                <div class="corner"></div>
+                <div class="team-head">
+                    <div class="team-icon">DB</div>
+                    <span class="team-tag">Division · 02</span>
+                </div>
+                <h3>Database Team</h3>
+                <p class="mission">Data architecture is not configuration — it is engineering. The DB team designs the schemas, owns the query layer, and makes the decisions that determine whether the product's data model scales and stays correct.</p>
+                <p class="focus-label">Engineering Focus</p>
+                <p class="mission">Normalisation, indexing strategies, query plan analysis, transaction semantics, and the deep understanding of why databases behave the way they do.</p>
+                <div class="team-stack">
+                    <span class="chip">SQL</span>
+                    <span class="chip">SurrealDB</span>
+                    <span class="chip">PostgreSQL</span>
+                    <span class="chip">Query Planning</span>
+                    <span class="chip">Schema Design</span>
+                </div>
+            </div>
+
+            <!-- Creative Team -->
+            <div class="team-card">
+                <div class="corner"></div>
+                <div class="team-head">
+                    <div class="team-icon">CRE</div>
+                    <span class="team-tag">Division · 03</span>
+                </div>
+                <h3>Creative Team</h3>
+                <p class="mission">Visual communication is a technical discipline. The Creative team engineers interfaces, builds cross-platform frontends, and takes responsibility for the product experience that end users actually encounter.</p>
+                <p class="focus-label">Engineering Focus</p>
+                <p class="mission">Component architecture, state management, accessibility, performance budgets, and building UI systems that remain maintainable as the codebase scales.</p>
+                <div class="team-stack">
+                    <span class="chip">React Native</span>
+                    <span class="chip">Flutter</span>
+                    <span class="chip">TypeScript</span>
+                    <span class="chip">UI Systems</span>
+                    <span class="chip">Accessibility</span>
+                </div>
+            </div>
+
+            <!-- Cyber Team -->
+            <div class="team-card">
+                <div class="corner"></div>
+                <div class="team-head">
+                    <div class="team-icon">CYB</div>
+                    <span class="team-tag">Division · 04</span>
+                </div>
+                <h3>Cyber Team</h3>
+                <p class="mission">Security is not a feature you add later. The Cyber team embeds threat modelling into every layer of the product — identifying attack surfaces, analysing vulnerabilities, and ensuring the product holds against adversarial conditions.</p>
+                <p class="focus-label">Engineering Focus</p>
+                <p class="mission">Network security, authentication architecture, vulnerability analysis, penetration testing methodology, and the deep study of how systems fail under attack.</p>
+                <div class="team-stack">
+                    <span class="chip">Networking</span>
+                    <span class="chip">Security Tooling</span>
+                    <span class="chip">Linux</span>
+                    <span class="chip">Threat Modelling</span>
+                    <span class="chip">CTF</span>
+                </div>
+            </div>
+
+            <!-- Marketing Team -->
+            <div class="team-card">
+                <div class="corner"></div>
+                <div class="team-head">
+                    <div class="team-icon">MKT</div>
+                    <span class="team-tag">Division · 05</span>
+                </div>
+                <h3>Marketing Team</h3>
+                <p class="mission">Technical work has no value if it cannot be communicated. The Marketing team handles outreach, documentation, and the external representation of Athenaeum's engineering — translating real depth into language that reaches the right people.</p>
+                <p class="focus-label">Engineering Focus</p>
+                <p class="mission">Technical writing, audience research, structured communication strategy, and building the feedback loops that tell engineering teams what the outside world actually needs.</p>
+                <div class="team-stack">
+                    <span class="chip">Technical Writing</span>
+                    <span class="chip">Documentation</span>
+                    <span class="chip">Git</span>
+                    <span class="chip">Communication</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- WORKFLOW PIPELINE -->
+<section>
+    <div class="container">
+        <div class="sec-head reveal">
+            <div>
+                <div class="sec-num">04 — Integration</div>
+                <h2 class="sec-title">How the divisions <em>connect.</em></h2>
+            </div>
+            <p class="sec-lede">Five teams. One product. Every architectural decision crosses team boundaries.</p>
+        </div>
+        <div class="pipeline reveal reveal-delay-1">
+            <div class="pipe-node">
+                <div class="pipe-idx">01 · Systems</div>
+                <h4>Infrastructure</h4>
+                <p>Build environment, deployment pipeline, and the system architecture that every other layer depends on.</p>
+            </div>
+            <div class="pipe-node">
+                <div class="pipe-idx">02 · Database</div>
+                <h4>Data Layer</h4>
+                <p>Schema design, query architecture, and the data contracts that the application and API layers consume.</p>
+            </div>
+            <div class="pipe-node">
+                <div class="pipe-idx">03 · Creative</div>
+                <h4>Interface</h4>
+                <p>Cross-platform frontend that consumes the API and translates data architecture into user-facing behaviour.</p>
+            </div>
+            <div class="pipe-node">
+                <div class="pipe-idx">04 · Cyber</div>
+                <h4>Security Layer</h4>
+                <p>Threat modelling and vulnerability analysis embedded across every layer — not applied as an afterthought.</p>
+            </div>
+            <div class="pipe-node">
+                <div class="pipe-idx">05 · Marketing</div>
+                <h4>Communication</h4>
+                <p>Technical documentation, outreach strategy, and external representation of what the other four teams build.</p>
+            </div>
+        </div>
+        <div class="workflow-note reveal reveal-delay-2">
+            <div class="workflow-dot"></div>
+            <p>Every team's output becomes another team's constraint. <b>This is not a problem to manage — it is the engineering discipline we are here to develop.</b> Systems that must integrate with other systems build better engineers than systems built in isolation.</p>
+        </div>
+    </div>
+</section>
+
+<!-- MEMBER GROWTH -->
+<section>
+    <div class="container">
+        <div class="sec-head reveal">
+            <div>
+                <div class="sec-num">05 — Progression</div>
+                <h2 class="sec-title">How members <em>evolve inside a team.</em></h2>
+            </div>
+            <p class="sec-lede">Progression is evidenced, not declared. You move up when your output demonstrates it.</p>
+        </div>
+        <div class="growth-rows">
+            <div class="growth-row reveal">
+                <div class="growth-stage">
+                    <strong>Stage I</strong>
+                    Foundation Builder
+                </div>
+                <div class="growth-body">
+                    <div>
+                        <h4>Contributor</h4>
+                        <p>You are learning the domain from first principles. You complete defined tasks, ask structured questions, and build the foundational intuition your team's work requires.</p>
+                    </div>
+                    <div>
+                        <p style="color:var(--muted);font-size:14.5px;line-height:1.7;">Daily practice. Re-learn one concept per week from scratch. Build small, working tools. Learn Git hygiene from commit one.</p>
+                        <div class="growth-evidence">Evidence required: <span>30+ solved problems · one deployed CLI tool · can explain one core subject without notes</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="growth-row reveal">
+                <div class="growth-stage">
+                    <strong>Stage II</strong>
+                    Skill Builder
+                </div>
+                <div class="growth-body">
+                    <div>
+                        <h4>Active Builder</h4>
+                        <p>You code independently, own small subsystems, and have shipped your first real project. You are beginning to go meaningfully beyond what class teaches.</p>
+                    </div>
+                    <div>
+                        <p style="color:var(--muted);font-size:14.5px;line-height:1.7;">Leetcode Medium consistently. Read primary source documentation. Build first real project — not a tutorial clone. Make your first open source contribution.</p>
+                        <div class="growth-evidence">Evidence required: <span>real GitHub project with 10+ commits · taught something to the club · consistent Medium-level problem solving</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="growth-row reveal">
+                <div class="growth-stage">
+                    <strong>Stage III</strong>
+                    Depth Seeker
+                </div>
+                <div class="growth-body">
+                    <div>
+                        <h4>Specialist</h4>
+                        <p>You have a deployed project. You read documentation naturally. You are beginning to reason about system design and have opinions grounded in real experience.</p>
+                    </div>
+                    <div>
+                        <p style="color:var(--muted);font-size:14.5px;line-height:1.7;">System design fundamentals. Codeforces Div2 competitive programming. Meaningful open source contributions. Read CS research papers. Apply to internships.</p>
+                        <div class="growth-evidence">Evidence required: <span>multiple strong projects · regularly helps others debug · reads advanced resources independently</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="growth-row reveal">
+                <div class="growth-stage">
+                    <strong>Stage IV</strong>
+                    Technical Lead
+                </div>
+                <div class="growth-body">
+                    <div>
+                        <h4>Team Lead &amp; Mentor</h4>
+                        <p>You can teach any core topic in your domain. You run teach-back sessions and code reviews. Your impact is measured by how much the people around you have grown.</p>
+                    </div>
+                    <div>
+                        <p style="color:var(--muted);font-size:14.5px;line-height:1.7;">Run structured learning sessions. Review other members' code with real feedback. Read advanced resources and bring what you find back to the team.</p>
+                        <div class="growth-evidence">Evidence required: <span>active mentor · multiple real projects · regularly leads discussions · applied to internships</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- REAL ENGINEERING -->
+<section>
+    <div class="container">
+        <div class="sec-head reveal">
+            <div>
+                <div class="sec-num">06 — Practice</div>
+                <h2 class="sec-title">What <em>real engineering</em> means here.</h2>
+            </div>
+            <p class="sec-lede">Teams do not simulate work. They do the work — with all the difficulty that implies.</p>
+        </div>
+        <div class="re-grid reveal reveal-delay-1">
+            <div class="re-card">
+                <div class="re-num">01 · OWNERSHIP</div>
+                <h3>You own the problem.</h3>
+                <p>Not a task assigned by a manager. Your team owns its layer — the architecture decisions, the bugs, the refactors, and the teaching of what you learned through the failures.</p>
+            </div>
+            <div class="re-card">
+                <div class="re-num">02 · REAL PROJECTS</div>
+                <h3>Built from scratch.</h3>
+                <p>Every project must be explainable line by line. If you cannot explain why you used that library, why the schema looks like that, or what the bottleneck is — it is not a real project yet.</p>
+            </div>
+            <div class="re-card">
+                <div class="re-num">03 · DEPTH</div>
+                <h3>One layer, deeply.</h3>
+                <p>Surface-level exposure to many things is the syllabus. Engineering depth is what happens when you spend a semester going three levels deeper into one domain than class ever required.</p>
+            </div>
+            <div class="re-card">
+                <div class="re-num">04 · ITERATION</div>
+                <h3>Build, break, rebuild.</h3>
+                <p>Real engineering is not one clean implementation. It is ten iterations, three rearchitectures, and the accumulated judgement about what not to do that you only earn by doing it wrong first.</p>
+            </div>
+            <div class="re-card">
+                <div class="re-num">05 · DISCIPLINE</div>
+                <h3>Standards, always.</h3>
+                <p>Meaningful commit messages. Clean README. Functions that do one thing. Names that explain themselves. These are not stylistic preferences — they are the minimum standard of professional engineering.</p>
+            </div>
+            <div class="re-card">
+                <div class="re-num">06 · COLLABORATION</div>
+                <h3>Integrate, don't silo.</h3>
+                <p>Your technical decisions constrain other teams. The discipline of building with integration in mind — communicating contracts, documenting interfaces — is the skill that distinguishes engineers from individual contributors.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="cta">
+    <div class="cta-grid-bg"></div>
+    <div class="container">
+        <div class="cta-inner">
+            <div class="eyebrow reveal" style="justify-content:center;">
+                <span class="dot"></span>
+                <span>Ready to Build</span>
+            </div>
+            <h2 class="reveal reveal-delay-1">Build Systems.<br><em>Build Depth.</em><br>Build Responsibility.</h2>
+            <p class="reveal reveal-delay-2">Athenaeum teams are not for everyone. They are for the people who want to do the actual work — who would rather own one layer well than dabble across every layer poorly.</p>
+            <div class="cta-row reveal reveal-delay-3" style="justify-content:center;">
+                <a class="btn btn-primary" href="join.html">
+                    Apply to a Team <span class="arrow">→</span>
+                </a>
+                <a class="btn btn-ghost" href="https://github.com" target="_blank" rel="noopener">
+                    View on GitHub
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <div class="foot-grid">
+            <div class="foot-brand">
+                <a class="brand" href="index.html">
+                    <span class="brand-logo"><img src="ATHENAEUM.png" alt="Athenaeum" width="34" height="34" /></span>
+                    <span class="brand-name">ATHENAEUM</span>
+                </a>
+                <p>A student-led engineering depth club at JNTUK. We build engineers who can learn anything, build anything, and explain anything.</p>
+            </div>
+            <div class="foot-col">
+                <h5>Club</h5>
+                <a href="philosophy.html">Philosophy</a>
+                <a href="teams.html">Teams</a>
+                <a href="join.html">Join</a>
+            </div>
+            <div class="foot-col">
+                <h5>Learn</h5>
+                <a href="resources.html">DSA</a>
+                <a href="resources.html">OS</a>
+                <a href="resources.html">DBMS</a>
+                <a href="resources.html">System Design</a>
+            </div>
+            <div class="foot-col">
+                <h5>Connect</h5>
+                <a href="#">GitHub</a>
+                <a href="#">LinkedIn</a>
+                <a href="#">Discord</a>
+                <a href="#">Email</a>
+            </div>
+        </div>
+        <div class="foot-bottom">
+            <span>© 2026 Athenaeum · JNTUK CSE · R23</span>
+            <span>Depth · Mastery · Systems · Evidence</span>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Reveal on scroll
+    const io = new IntersectionObserver(
+        (entries) => { entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);} }); },
+        { threshold: 0.1 }
+    );
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // Mobile nav toggle
+    document.getElementById('navtoggle').addEventListener('click', () => {
+        document.getElementById('navlinks').classList.toggle('open');
+    });
+    document.querySelectorAll('#navlinks a').forEach(a =>
+        a.addEventListener('click', () => document.getElementById('navlinks').classList.remove('open'))
+    );
+</script>
+</body>
+</html>
